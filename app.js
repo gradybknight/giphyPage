@@ -18,8 +18,9 @@ function populateGifHolder(){
     $(".gifHolder").empty();
     for (var i=0; i<currentResponseFromGiphy.data.length;i++){
         var newParentDiv = $("<div>");
-        var newImg = $("<img>");
+        var newImg = $("<img class='theGIF'>");
         newImg.attr("isMoving",false);
+        newImg.attr("arrayIndex",i);
         newImg.attr("src",currentResponseFromGiphy.data[i].images.fixed_width_small_still.url);
         var newDesc = $("<div>");
         newDesc.text(currentResponseFromGiphy.data[i].rating);
@@ -30,11 +31,12 @@ function populateGifHolder(){
 }
 
 function toggleAnimation(){
+    console.log($(this)
     if ($(this).attr("isMoving")=="false"){
-        $(this).attr("src",$(this).attr(currentResponseFromGiphy.data[i].images.fixed_width_small.url));
+        $(this).attr("src",$(this).attr(currentResponseFromGiphy.data[$(this).attr("arrayIndex")].images.fixed_width_small.url));
         $(this).attr("isMoving","true");
     } else {
-        $(this).attr("src",$(this).attr(currentResponseFromGiphy.data[i].images.fixed_width_small_still.url));
+        $(this).attr("src",$(this).attr(currentResponseFromGiphy.data[$(this).attr("arrayIndex")].images.fixed_width_small_still.url));
         $(this).attr("isMoving","true");
     }
 }
@@ -51,4 +53,11 @@ Click listener for gifs: toggle animation
 Click listener for user input: 1. query giphy and populate div of gifs. 2. add button and update array of strings
 
 */
+
+// Click Listeners
+$(".gifHolder").on("click",function(){
+    console.log(currentResponseFromGiphy);
+    console.log("holder clicked");
+    toggleAnimation();
+});
 queryGiphy("goat");
